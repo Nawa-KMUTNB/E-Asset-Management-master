@@ -21,7 +21,7 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color:#c407c4;">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('admin/home') }}"id="a">
                     {{ config('', 'E-Asset Management') }}
@@ -49,7 +49,7 @@
                         @guest
                         @else
                             <li class="nav-item mt-2 mb-2 d-grid gap-2 d-md-flex justify-content-md-end ms-2 me-2">
-                                <a class="btn btn-outline-info" href="{{ url('bringMember') }}"
+                                <a class="btn btn-outline-info btn-dark" href="{{ url('bringMember') }}"
                                     id="font-color">{{ __('การเบิกครุภัณฑ์') }}</a>
 
                             </li>

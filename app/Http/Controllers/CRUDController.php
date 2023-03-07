@@ -29,6 +29,12 @@ class CRUDController extends Controller
 
         return view('companies.index', $data);
     }
+    public function member()
+    {
+        $data['companies'] = Company::orderBy('id', 'asc')->paginate(10);
+
+        return view('companies.member', $data);
+    }
 
     //Crate Resource
     public function create()

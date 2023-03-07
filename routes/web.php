@@ -16,6 +16,7 @@ use App\Http\Controllers\SearchController;
 //หน้าแรก Admin
 Route::resource('companies', CRUDController::class);
 Route::delete('companies/{id}', 'CRUDController@destroy')->name('companies.destroy');
+Route::get('companeisMember', [CRUDController::class, 'member'])->name('companies.member');
 
 
 Route::delete('destroyImg/{id}', [CRUDController::class, 'destroyImg'])->name('destroyImg');

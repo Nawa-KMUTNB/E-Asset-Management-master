@@ -25,8 +25,9 @@
                 <table>
                     <tr>
                         <td style="text-align: right">
-                            <div class="mb-1"><a href="{{ route('companies.index') }}"
-                                    class="btn btn-warning">ย้อนกลับ</a></div>
+                            <div class="mb-1">
+                                <a href="{{ route('companies.member') }}" class="btn btn-warning">ย้อนกลับ</a>
+                            </div>
                         </td>
                     </tr>
                 </table>
