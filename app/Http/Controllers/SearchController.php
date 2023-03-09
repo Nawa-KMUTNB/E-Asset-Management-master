@@ -38,7 +38,6 @@ class SearchController extends Controller
         // return view('bring.index', ['brings' => $brings, 'users' => $users]);
         $pdf = PDF::loadView('bring.pdf', ['brings' => $brings, 'users' => $users]);
         return $pdf->stream();
-
     }
 
     //ค้นหาหน้าการเบิก member
@@ -58,16 +57,12 @@ class SearchController extends Controller
             ->orWhere('num_department', 'LIKE', "%$search_text%")
             ->orWhere('place', 'LIKE', "%$search_text%")
             ->orWhere('other_department', 'LIKE', "%$search_text%")
-            ->paginate(10);
-
-        $users = User::where('name', 'LIKE', "%$search_text%")
-            ->orWhere('num_position', 'LIKE', "%$search_text%")
-            ->orWhere('position', 'LIKE', "%$search_text%")
-            ->orWhere('department', 'LIKE', "%$search_text%")
-            ->orWhere('task', 'LIKE', "%$search_text%")
             ->get();
 
-        return view('bring.member', ['brings' => $brings, 'users' => $users]);
+        // return view('bring.member', ['brings' => $brings, 'users' => $users]);
+
+        $pdf = PDF::loadView('bring.pdfMem', ['brings' => $brings]);
+        return $pdf->stream();
     }
 
 
@@ -120,8 +115,12 @@ class SearchController extends Controller
             ->orWhere('num_old_asset', 'LIKE', "%$search_text%")
             ->orWhere('place', 'LIKE', "%$search_text%")
             ->orWhere('num_department', 'LIKE', "%$search_text%")
-            ->paginate(10);
-        return view('companies.member', ['companies' => $companies]);
+            ->get();
+
+        $pdf = PDF::loadView('detail.pdf', ['companies' => $companies]);
+        return $pdf->stream();
+
+        // return view('companies.member', ['companies' => $companies]);
     }
 
 

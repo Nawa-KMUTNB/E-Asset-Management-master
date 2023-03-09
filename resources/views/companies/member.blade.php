@@ -55,7 +55,6 @@
             <table class="table table-hover table-bordered ">
                 <thead class="table-dark" style="text-align:center;font-size:16px;">
                     <tr>
-                        <th width="90px"></th>
                         <th>ลำดับ</th>
                         <th>หมายเลขครุภัณฑ์</th>
                         <th>วันที่รับเข้าคลัง</th>
@@ -71,17 +70,23 @@
                 </thead>
                 @foreach ($companies as $company)
                     <tr style="text-align: center">
-                        <td>
-                            <a href="{{ route('member.edit', $company->id) }}" class="text-primary">รายละเอียด</a>
-                        </td>
                         <td>{{ $company->id }}</td>
                         <td>{{ $company->num_asset }}</td>
                         <td>{{ $company->date_into }}</td>
                         <td>{{ $company->name_asset }}</td>
-                        <td>{{ $company->detail }}</td>
+                        {{-- <td>{{ $company->detail }}</td> --}}
+                        <td>
+                            <a href="{{ route('member.edit', $company->id) }}" class="text-primary">รายละเอียด</a>
+                        </td>
                         <td>{{ $company->unit }}</td>
                         <td>{{ $company->place }}</td>
-                        <td>{{ $company->per_price }}</td>
+                        @php
+                            $doubleValue = $company->per_price;
+                            $formattedValue = number_format($doubleValue, 2); // Output: "1,234.57"
+                            
+                        @endphp
+
+                        <td>{{ $formattedValue }}</td>
                         <td>{{ $company->status_buy }}</td>
                         <td>{{ $company->num_old_asset }}</td>
                         <td><img src="cover/{{ $company->cover }}" class="img-responsive"

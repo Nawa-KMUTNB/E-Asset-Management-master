@@ -41,11 +41,6 @@
                 </form>
 
             </div>
-            @if ($message = Session::get('success'))
-                <div class="alert alert-success">
-                    <p>{{ $message }}</p>
-                </div>
-            @endif
             <table class="table table-hover table-bordered">
                 <thead class="table-dark" style="text-align:center;font-size:16px;">
                     <tr>

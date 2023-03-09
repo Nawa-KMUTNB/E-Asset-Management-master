@@ -64,7 +64,6 @@ class CRUDController extends Controller
 
     public function update(Request $request, $id)
     {
-
         // Validate ข้อมูลครุภัณฑ์
         $request->validate([
             'cover' => 'mimes:jpeg,jpg,png|max:2048',
@@ -75,7 +74,8 @@ class CRUDController extends Controller
             'detail' => 'required|string|max:255',
             'unit' =>   'required|string|max:60',
             'place' => 'required|string|max:255',
-            'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})$/',
+            // 'per_price' =>  'required|numeric|regex:/^[0-9]{1,8}(\.[0-9]{2})$/',
+            // 'per_price' => "required|string|regex:$pattern",
             'status_buy' => 'required|string|max:255',
             //'num_old_asset' => 'required|string|regex:/^\d{3}(\-)\d{2}(\-)\d{1}(\-)(\d{1}\/\d{5})$/',
             'num_old_asset' => 'required|string|max:255',
@@ -191,7 +191,7 @@ class CRUDController extends Controller
     public function destroy($id)
     {
 
-        $company = Company::find($id);
+        $company = Company::findOrFail($id);
         $destination = 'cover/' . $company->cover;
         if (File::exists($destination)) {
             File::delete($destination);
@@ -205,12 +205,12 @@ class CRUDController extends Controller
             $image->delete();
         }
 
-        $cash = Chips::find($id);
+        $cash = Chips::findOrFail($id);
 
         $company->delete();
         $cash->delete();
 
-        return redirect()->route('companies.index')->with('success', 'ลบครุภัณฑ์สำเร็จแล้ว');
+        return redirect()->route('companies.index')->with('delete', 'ลบครุภัณฑ์สำเร็จแล้ว');
     }
 
 

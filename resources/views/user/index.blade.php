@@ -16,7 +16,7 @@
         <div class="container mt-2">
             <div class="row">
                 <div class="col-lg-12 text-center" id="brData">
-                    <h1>จัดการผู้ใช้งาน</h1>
+                    <h1 style="font-size: 30px">จัดการผู้ใช้งาน</h1>
                 </div>
 
                 <div class="mt-2 mb-2 " style="margin-left:92%"><a href="{{ route('companies.index') }}"
@@ -54,13 +54,23 @@
                         </td>
                         <td>{{ $users->task }}</td>
                         <td>
-                            <form action="{{ route('user.destroy', $users->id) }}" method="POST">
+                            <div class="delete-row">
                                 <a href="{{ route('user.edit', $users->id) }}" class="btn btn-warning">แก้ไขผู้ใช้งาน</a>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('ยืนยันการลบผู้ใช้งาน?')">ลบผู้ใช้งาน</button>
 
+                                <button class="delete-btn"
+                                    data-target="#delete-alert-{{ $users->id }}">ลบผู้ใช้งาน</button>
+                                <form action="{{ route('user.destroy', $users->id) }}" method="POST" class="delete-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <div class="delete-alert hidden" id="delete-alert-{{ $users->id }}">
+                                        <p>คุณต้องการจะลบข้อมูลผู้ใช้งานใช่หรือไม่?</p>
+                                        <button class="delete-confirm" data-form=".delete-form">ใช่,
+                                            ต้องการลบผู้ใช้งาน</button>
+                                        <button class="delete-cancel">ไม่</button>
+                                    </div>
+                                    <input type="hidden" name="id" value="{{ $users->id }}">
+                                </form>
+                            </div>
                             </form>
                         </td>
                     </tr>
@@ -71,6 +81,82 @@
 
         </div>
     @endsection
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const deleteBtns = document.querySelectorAll('.delete-btn');
+            const deleteAlerts = document.querySelectorAll('.delete-alert');
+            const deleteConfirms = document.querySelectorAll('.delete-confirm');
+            const deleteCancels = document.querySelectorAll('.delete-cancel');
+
+            deleteBtns.forEach(deleteBtn => {
+                deleteBtn.addEventListener('click', (e) => {
+                    const target = e.target.dataset.target;
+                    const deleteAlert = document.querySelector(target);
+                    deleteAlert.classList.remove('hidden');
+                    centerDeleteAlert(deleteAlert);
+                });
+            });
+
+            deleteCancels.forEach(deleteCancel => {
+                deleteCancel.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const deleteAlert = e.target.closest('.delete-alert');
+                    deleteAlert.classList.add('hidden');
+                });
+            });
+
+            deleteConfirms.forEach(deleteConfirm => {
+                deleteConfirm.addEventListener('click', (e) => {
+                    const targetForm = e.target.dataset.form;
+                    const deleteForm = document.querySelector(targetForm);
+                    const id = deleteForm.querySelector('input[name="id"]')
+                        .value; // Get the ID from the input field
+                    fetch(deleteForm.action + '/' + id, { // Append the ID to the URL
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector(
+                                    'meta[name="csrf-token"]').getAttribute('content'),
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const targetRow = e.target.closest('.delete-row');
+                                targetRow.remove();
+                            }
+                            const deleteAlert = e.target.closest('.delete-alert');
+                            deleteAlert.classList.add('hidden');
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                });
+            });
+
+
+            function centerDeleteAlert(deleteAlert) {
+                const alertWidth = deleteAlert.offsetWidth;
+                const alertHeight = deleteAlert.offsetHeight;
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                const alertLeft = (screenWidth - alertWidth) / 2;
+                const alertTop = (screenHeight - alertHeight) / 2;
+                deleteAlert.style.left = alertLeft + 'px';
+                deleteAlert.style.top = alertTop + 'px';
+            }
+
+            window.addEventListener('resize', () => {
+                deleteAlerts.forEach(deleteAlert => {
+                    if (!deleteAlert.classList.contains('hidden')) {
+                        centerDeleteAlert(deleteAlert);
+                    }
+                });
+            });
+        });
+    </script>
+
 
 </body>
 

@@ -37,15 +37,10 @@
 <body>
     <img src="../public/ited.jpg" alt="ited" width="50" height="50" style="margin-bottom: 10px">
 
-    @foreach ($users as $user)
-        <p style="text-align: center; font-size: 22px">
-
-            สำนักพัฒนาเทคนิคศึกษา <br>
-            ใบรายการค้นหาคุณภัณฑ์ของ : {{ $user->name }} <br>
-            เลขประจำตำแหน่ง : {{ $user->num_position }}
-        </p>
-    @endforeach
-
+    <p style="text-align: center; font-size: 22px">
+        สำนักพัฒนาเทคนิคศึกษา <br>
+        ใบรายการค้นหาคุณภัณฑ์ของ
+    </p>
     <table style="border-collapse: collapse; width: 100%; font-size: 18px">
         <tr>
             <td>ลำดับ</td>

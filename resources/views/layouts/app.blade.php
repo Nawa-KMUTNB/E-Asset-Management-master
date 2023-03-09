@@ -21,11 +21,17 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light  shadow-sm" style="background-color:#c407c4;">
+        <nav class="navbar navbar-expand-md navbar-light  shadow-sm" style="background-color:#bf7fff;">
             <div class="container">
+
                 <a class="navbar-brand" href="{{ url('admin/home') }}"id="a">
                     {{ config('', 'E-Asset Management') }}
                 </a>
+            </div>
+            <div class="container">
+
+                <p style="text-align: center;">
+                    เว็บไซต์สร้างขึ้นมาไว้สำหรับการจัดการครุภัณฑ์ของสำนักพัฒนาเทคนิคศึกษา</p>
             </div>
             <div class="container">
 

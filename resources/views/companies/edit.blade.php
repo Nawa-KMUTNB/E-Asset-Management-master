@@ -119,8 +119,13 @@
                     <div class="col-md-6">
                         <div class="form-group my-3">
                             <strong>ราคา/หน่วย</strong>
-                            <input type="text" name="per_price" value="{{ $company->per_price }}"
-                                class="form-control" placeholder="ราคา/หน่วย" id="input" />
+                            @php
+                                $doubleValue = $company->per_price;
+                                $formattedValue = number_format($doubleValue, 2);
+                                $formattedValue = str_replace(',', '', $formattedValue); // Output: "1234"
+                            @endphp
+                            <input type="text" name="per_price" value="{{ $formattedValue }}" class="form-control"
+                                placeholder="ราคา/หน่วย" id="input" />
                             @error('per_price')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror

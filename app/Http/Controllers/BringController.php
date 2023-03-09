@@ -130,7 +130,7 @@ class BringController extends Controller
             "Date_into" => $request->Date_into,
 
             "department" => $request->department,
-            
+
 
             "num_department" => $request->num_department,
             "place" => $request->place,
@@ -166,6 +166,6 @@ class BringController extends Controller
     {
         $brings = Bring::find($id);
         $brings->delete();
-        return redirect()->route('bring.index')->with('success', 'ลบการเบิกครุภัณฑ์สำเร็จแล้ว');
+        return redirect()->route('bring.index')->with('delete', 'ลบการเบิกครุภัณฑ์สำเร็จแล้ว');
     }
 }

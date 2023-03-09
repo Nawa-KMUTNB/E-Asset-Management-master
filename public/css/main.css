@@ -19,10 +19,10 @@ h3 {
 }
 
 #a {
-    color: rgb(255, 174, 0);
+    color: white;
     font-size: 22px;
     font-weight: bold;
-    background-color: rgb(54, 54, 54);
+    background-color: rgba(27, 84, 241, 0.842);
     width: 250px;
     text-align: center;
     height: 50px;
@@ -275,6 +275,40 @@ b {
     color: rgb(255, 230, 0);
     text-shadow: 1px 1px 2px rgb(42, 38, 44);
 }
+
 p {
     font-size: 16px;
 }
+
+
+.delete-alert {
+    position: fixed;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.delete-alert.hidden {
+    display: none;
+}
+
+.delete-alert button {
+    margin: 10px;
+}
+
+
+/* .delete-btn {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 1920px) {
+    .delete-btn {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+} */

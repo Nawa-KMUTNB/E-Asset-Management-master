@@ -54,7 +54,7 @@
                             @endforeach
                         </div>
 
-                        <div class="col" style="background-color:#ad00d6;color:white;padding:15px;padding-left:2.5%">
+                        <div class="col">
 
                             <p style="margin-top:15px;"><b>หมายเลขครุภัณฑ์</b><br> &nbsp;&nbsp;&nbsp;&nbsp;<i
                                     class="bi bi-caret-right-fill"> {{ $company->num_asset }}</i></p>
@@ -62,12 +62,19 @@
                                     {{ $company->name_asset }} </i></p>
                             <p class="text-break"><b>รายละเอียด</b> <br>&nbsp;&nbsp;&nbsp;&nbsp;<i
                                     class="bi bi-caret-right-fill"> {{ $company->detail }} </i></p>
-                            <p><b>หน่วยนับ</b> <br>&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-caret-right-fill">
-                                    {{ $company->unit }} </i> </p>
+                            <p><b>หน่วยนับ</b> <br>&nbsp;&nbsp;&nbsp;&nbsp;
+                                : {{ $company->unit }} </p>
                             <p><b>สถานที่ตั้ง</b> <br>&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-caret-right-fill">
                                     {{ $company->place }} </i> </p>
                             <p><b>ราคา/หน่วย</b> <br> &nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-caret-right-fill">
-                                    {{ $company->per_price }} </i> </p>
+
+                                    @php
+                                        $doubleValue = $company->per_price;
+                                        $formattedValue = number_format($doubleValue, 2); // Output: "1,234.57"
+                                        
+                                    @endphp
+
+                                    {{ $formattedValue }} </i> </p>
                             <p><b>สถานะ</b> <br> &nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-caret-right-fill">
                                     {{ $company->status_buy }} </i> </p>
                             <p><b>หมายเลขครุภัณฑ์เก่า</b> <br>&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-caret-right-fill">
@@ -76,8 +83,7 @@
                             @endforeach
                         </div>
 
-                        <div class="col"
-                            style="background-color:#6f03c4;color:white;padding:20px;margin-left:3px;padding-left:2.5%">
+                        <div class="col">
                             @foreach ($cashes as $cash)
                                 <p style="margin-top:15px;"><b>วันที่รับเข้าคลัง</b> <br>&nbsp;&nbsp;&nbsp;&nbsp;<i
                                         class="bi bi-caret-right-fill"> {{ $company->date_into }} </i></p>

@@ -44,17 +44,37 @@
 
                     </div>
                 </form>
-
-
-
-
-
             </div>
-            @if ($message = Session::get('success'))
-                <div class="alert alert-success">
-                    <p>{{ $message }}</p>
-                </div>
+
+            @if (Session::has('success'))
+                <script>
+                    $(function() {
+                        swal({
+                            title: "สำเร็จ!",
+                            text: "{{ Session::get('success') }}",
+                            icon: "success",
+                            timer: 2000,
+                            buttons: false,
+                        });
+                    });
+                </script>
             @endif
+
+            @if (Session::has('delete'))
+                <script>
+                    $(function() {
+                        swal({
+                            title: "สำเร็จ!",
+                            text: "{{ Session::get('delete') }}",
+                            icon: "success",
+                            timer: 2000,
+                            buttons: false,
+                        });
+                    });
+                </script>
+            @endif
+
+
             <table class="table table-hover table-bordered">
                 <thead class="table-dark" style="text-align:center;font-size:16px;">
                     <tr>
@@ -81,7 +101,13 @@
                         <td>{{ $bring->detail }}</td>
                         <td>{{ $bring->num_asset }}</td>
                         <td>{{ $bring->name_asset }}</td>
-                        <td>{{ $bring->per_price }}</td>
+                        @php
+                            $doubleValue = $bring->per_price;
+                            $formattedValue = number_format($doubleValue, 2); // Output: "1,234.57"
+                            
+                        @endphp
+
+                        <td>{{ $formattedValue }}</td>
                         <td>{{ $bring->num_sent }}</td>
                         <td>{{ $bring->Date_into }}</td>
                         <td>
@@ -91,14 +117,25 @@
                         <td>{{ $bring->place }}</td>
 
                         <td>
-                            <form action="{{ route('bring.destroy', $bring->id) }}" method="POST">
+                            <div class="delete-row">
                                 <a href="{{ route('bring.edit', $bring->id) }}"
                                     class="btn btn-warning">แก้ไขการเบิกครุภัณฑ์</a>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger mt-1"
-                                    onclick="return confirm('ยืนยันการลบการเบิกครุภัณฑ์?');">ลบการเบิกครุภัณฑ์</button>
 
+                                <button class="delete-btn"
+                                    data-target="#delete-alert-{{ $bring->id }}">ลบการเบิกครุภัณฑ์</button>
+                                <form action="{{ route('companies.destroy', $bring->id) }}" method="POST"
+                                    class="delete-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <div class="delete-alert hidden" id="delete-alert-{{ $bring->id }}">
+                                        <p>คุณต้องการจะลบการเบิกครุภัณฑ์ใช่หรือไม่?</p>
+                                        <button class="delete-confirm" data-form=".delete-form">ใช่,
+                                            ต้องการลบการเบิกครุภัณฑ์</button>
+                                        <button class="delete-cancel">ไม่</button>
+                                    </div>
+                                    <input type="hidden" name="id" value="{{ $bring->id }}">
+                                </form>
+                            </div>
                             </form>
                         </td>
                     </tr>
@@ -109,6 +146,82 @@
 
         </div>
     @endsection
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const deleteBtns = document.querySelectorAll('.delete-btn');
+            const deleteAlerts = document.querySelectorAll('.delete-alert');
+            const deleteConfirms = document.querySelectorAll('.delete-confirm');
+            const deleteCancels = document.querySelectorAll('.delete-cancel');
+
+            deleteBtns.forEach(deleteBtn => {
+                deleteBtn.addEventListener('click', (e) => {
+                    const target = e.target.dataset.target;
+                    const deleteAlert = document.querySelector(target);
+                    deleteAlert.classList.remove('hidden');
+                    centerDeleteAlert(deleteAlert);
+                });
+            });
+
+            deleteCancels.forEach(deleteCancel => {
+                deleteCancel.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const deleteAlert = e.target.closest('.delete-alert');
+                    deleteAlert.classList.add('hidden');
+                });
+            });
+
+            deleteConfirms.forEach(deleteConfirm => {
+                deleteConfirm.addEventListener('click', (e) => {
+                    const targetForm = e.target.dataset.form;
+                    const deleteForm = document.querySelector(targetForm);
+                    const id = deleteForm.querySelector('input[name="id"]')
+                        .value; // Get the ID from the input field
+                    fetch(deleteForm.action + '/' + id, { // Append the ID to the URL
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector(
+                                    'meta[name="csrf-token"]').getAttribute('content'),
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const targetRow = e.target.closest('.delete-row');
+                                targetRow.remove();
+                            }
+                            const deleteAlert = e.target.closest('.delete-alert');
+                            deleteAlert.classList.add('hidden');
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                });
+            });
+
+
+            function centerDeleteAlert(deleteAlert) {
+                const alertWidth = deleteAlert.offsetWidth;
+                const alertHeight = deleteAlert.offsetHeight;
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                const alertLeft = (screenWidth - alertWidth) / 2;
+                const alertTop = (screenHeight - alertHeight) / 2;
+                deleteAlert.style.left = alertLeft + 'px';
+                deleteAlert.style.top = alertTop + 'px';
+            }
+
+            window.addEventListener('resize', () => {
+                deleteAlerts.forEach(deleteAlert => {
+                    if (!deleteAlert.classList.contains('hidden')) {
+                        centerDeleteAlert(deleteAlert);
+                    }
+                });
+            });
+        });
+    </script>
+
 
 </body>
 

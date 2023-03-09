@@ -68,7 +68,15 @@
                             <p><b>สถานที่ตั้ง</b> <br>&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-caret-right-fill">
                                     {{ $company->place }} </i> </p>
                             <p><b>ราคา/หน่วย</b> <br> &nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-caret-right-fill">
-                                    {{ $company->per_price }} </i> </p>
+
+                                    @php
+                                        $doubleValue = $company->per_price;
+                                        $formattedValue = number_format($doubleValue, 2); // Output: "1,234.57"
+                                        
+                                    @endphp
+
+                                    {{ $formattedValue }} </i> </p>
+                            {{ $company->per_price }} </i> </p>
                             <p><b>สถานะ</b> <br> &nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-caret-right-fill">
                                     {{ $company->status_buy }} </i> </p>
                             <p><b>หมายเลขครุภัณฑ์เก่า</b> <br>&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-caret-right-fill">
