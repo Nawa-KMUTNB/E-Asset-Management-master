@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de22ad54fea25cb8feb56d77a7462293",
+    "content-hash": "057f57f3e3f55bf8abcab0e6207649d1",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -3030,6 +3030,46 @@
                 }
             ],
             "time": "2022-07-30T15:51:26+00:00"
+        },
+        {
+            "name": "plesk/composer-command-info",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/plesk/composer-command-info.git",
+                "reference": "f72ea23fa837573f39a88ae4791d8b3f7770e0e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/plesk/composer-command-info/zipball/f72ea23fa837573f39a88ae4791d8b3f7770e0e3",
+                "reference": "f72ea23fa837573f39a88ae4791d8b3f7770e0e3",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^2.0",
+                "ext-json": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "codeception/codeception": "^4.2.1",
+                "codeception/module-asserts": "^2.0",
+                "composer/composer": "^2.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Plesk\\ComposerCommandInfo\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Plesk\\ComposerCommandInfo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "support": {
+                "issues": "https://github.com/plesk/composer-command-info/issues",
+                "source": "https://github.com/plesk/composer-command-info/tree/1.1.1"
+            },
+            "time": "2022-08-12T07:00:43+00:00"
         },
         {
             "name": "psr/cache",
