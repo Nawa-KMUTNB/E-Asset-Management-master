@@ -2,7 +2,10 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
@@ -80,10 +83,19 @@
     },
     "config": {
         "optimize-autoloader": true,
-        "preferred-install": "dist",
+        "preferred-install": {
+            "my-organization/stable-package": "dist",
+            "my-organization/*": "source",
+            "partner-organization/*": "auto",
+            "*": "dist"
+        },
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "third-party/required-plugin": true,
+            "my-organization/*": true,
+            "unnecessary/plugin": false,
+            "my-organization/custom-plugin": true
         }
     },
     "minimum-stability": "dev",
